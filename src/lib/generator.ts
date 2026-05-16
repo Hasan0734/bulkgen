@@ -1,4 +1,4 @@
-import type { FieldType } from "./types";
+import type { FieldType, TableDef } from "./types";
 
 
 export const FIELD_GROUPS: {label:string, items: {type: FieldType, label: string}[]}[] = [
@@ -70,3 +70,8 @@ export const FIELD_GROUPS: {label:string, items: {type: FieldType, label: string
 
 
 export const fieldLabel = (t: FieldType) => FIELD_GROUPS.flatMap((g) => g.items).find((i) => i.type === t)?.label ?? t;
+
+
+export const generateData = (tables: TableDef[]):Record<string, Record<string, unknown>[]>  =>{
+
+}

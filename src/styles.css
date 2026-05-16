@@ -200,6 +200,9 @@
   body {
     @apply bg-background text-foreground;
   }
+  button {
+    @apply cursor-pointer
+  }
 }
 
 ::view-transition-old(root), ::view-transition-new(root) {
