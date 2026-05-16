@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Button } from './ui/button'
+import { Moon, Sun } from 'lucide-react'
 
 type ThemeMode = 'light' | 'dark' | 'auto'
 
@@ -33,7 +34,7 @@ function applyThemeMode(mode: ThemeMode) {
 }
 
 export default function ThemeToggle() {
-  const [mode, setMode] = useState<ThemeMode>('auto')
+  const [mode, setMode] = useState<ThemeMode>('light')
 
   useEffect(() => {
     const initialMode = getInitialMode()
@@ -47,7 +48,7 @@ export default function ThemeToggle() {
     }
 
     const media = window.matchMedia('(prefers-color-scheme: dark)')
-    const onChange = () => applyThemeMode('auto')
+    const onChange = () => applyThemeMode('light')
 
     media.addEventListener('change', onChange)
     return () => {
@@ -56,8 +57,7 @@ export default function ThemeToggle() {
   }, [mode])
 
   function toggleMode() {
-    const nextMode: ThemeMode =
-      mode === 'light' ? 'dark' : mode === 'dark' ? 'auto' : 'light'
+    const nextMode: ThemeMode = mode === 'light' ? 'dark' : 'light'
     setMode(nextMode)
     applyThemeMode(nextMode)
     window.localStorage.setItem('theme', nextMode)
@@ -70,12 +70,12 @@ export default function ThemeToggle() {
 
   return (
     <Button
-      type="button"
       onClick={toggleMode}
-      aria-label={label}
       title={label}
+      variant={'ghost'}
+      size={'icon-lg'}
     >
-      {mode === 'auto' ? 'Auto' : mode === 'dark' ? 'Dark' : 'Light'}
+      {mode === "dark" ? <Sun/> :<Moon/>}
     </Button>
   )
 }
