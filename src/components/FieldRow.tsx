@@ -53,7 +53,7 @@ const FieldRow = ({
           </SelectTrigger>
           <SelectContent className="md:max-w-40 ">
             {FIELD_GROUPS.map((g) => (
-              <SelectGroup>
+              <SelectGroup key={g.label}>
                 <SelectLabel className="font-bold text-active">
                   {g.label}
                 </SelectLabel>

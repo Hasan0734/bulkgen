@@ -24,6 +24,7 @@ export default function Header() {
         <div className="order-3 flex w-full flex-wrap items-center gap-x-4 gap-y-1 pb-1 text-sm font-semibold sm:order-0 sm:w-auto sm:flex-nowrap sm:pb-0">
           {navLink.map((nav) => (
             <Link
+              key={nav.title}
               to={nav.to}
               activeOptions={{ exact: true }}
               className="group relative"
@@ -55,7 +56,7 @@ export default function Header() {
             <GithubIcon className="size-6" />
           </a>
 
-          <AnimatedThemeToggler/>
+          <AnimatedThemeToggler />
           <Button asChild className="h-9 rounded-full px-5">
             <Link to="/playground">Playground</Link>
           </Button>

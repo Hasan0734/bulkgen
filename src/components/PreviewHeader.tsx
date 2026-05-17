@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, type Dispatch, type SetStateAction } from 'react'
 import {
   Select,
   SelectContent,
@@ -12,10 +12,14 @@ import { Download, Wand2 } from 'lucide-react'
 import CopyButton from './ui/copy-button'
 import { useTableStore } from '#/app/store'
 
-const PreviewHeader = () => {
+interface PreviewHeaderProps {
+  activeTable: string
+  setActiveTable: Dispatch<SetStateAction<string>>
+}
+
+const PreviewHeader = ({ activeTable, setActiveTable }: PreviewHeaderProps) => {
   const { tables, generateData } = useTableStore()
   const [format, setFormat] = useState<'json' | 'csv' | 'sql'>('json')
-  const [activeTable, setActiveTable] = useState(tables[0]?.id ?? '')
 
   return (
     <div className="flex justify-between items-center">
@@ -27,8 +31,14 @@ const PreviewHeader = () => {
           <SelectValue placeholder="Select table" />
         </SelectTrigger>
         <SelectContent>
+          <SelectItem key={'all'} value={'all'}>
+            All Tables
+          </SelectItem>
+
           {tables.map((item) => (
-            <SelectItem value={item.id}>{item.name}</SelectItem>
+            <SelectItem key={item.name} value={item.name}>
+              {item.name}
+            </SelectItem>
           ))}
         </SelectContent>
       </Select>
@@ -51,7 +61,11 @@ const PreviewHeader = () => {
         </Tabs>
         <CopyButton content="hello world" />
 
-        <Button onClick={() => generateData()} size={'lg'} className="rounded-lg ">
+        <Button
+          onClick={() => generateData()}
+          size={'lg'}
+          className="rounded-lg "
+        >
           <Wand2 /> Generate
         </Button>
         <Button size={'lg'} className="rounded-lg">

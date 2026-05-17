@@ -43,7 +43,7 @@ export const HowItWorks = () => {
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         {steps.map((s, i) => (
-          <UICard data={s}  />
+          <UICard key={i} data={s}  />
         ))}
       </div>
     </section>

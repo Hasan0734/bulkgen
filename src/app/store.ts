@@ -30,15 +30,7 @@ const initialTables: TableDef[] = [
         fields: [
             { id: 'u1', name: 'id', type: 'uuid' },
             { id: 'u2', name: 'full_name', type: 'fullName' },
-            { id: 'u3', name: 'email', type: 'email' },
-            { id: 'u4', name: 'country', type: 'country' },
-            {
-                id: 'u5',
-                name: 'role',
-                type: 'enum',
-                enumValues: 'admin, member, viewer',
-            },
-            { id: 'u6', name: 'active', type: 'boolean' },
+          
         ],
     },
     {

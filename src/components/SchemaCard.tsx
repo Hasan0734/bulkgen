@@ -1,30 +1,33 @@
-import { Card } from './ui/card'
-import SchemaCardHeader from './SchemaCardHeader'
+import { Card, CardContent } from './ui/card'
 import FieldRow from './FieldRow'
 import type { FieldDef, TableDef } from '#/lib/types'
-import { useMemo, useState } from 'react'
+import React, { useMemo, useState } from 'react'
 
 import { Button } from './ui/button'
 import { ChevronDown, Plus } from 'lucide-react'
 import { useTableStore } from '#/app/store'
 import { cn } from '#/lib/utils'
 import { AnimatePresence, motion } from 'motion/react'
+import { useShallow } from 'zustand/shallow'
+import SchemaCardHeader from './SchemaCardHeader'
 
 interface SchemaCardProps {
-  table: TableDef
-
+  tableId: string
 }
 
-const SchemaCard = ({ table }: SchemaCardProps) => {
+const SchemaCard = ({ tableId }: SchemaCardProps) => {
   const { addTableField, removeField, updateTableField } = useTableStore()
-  const [isOpen, setIsOpen] = useState(false)
+  const table = useTableStore(
+    useShallow((state) => state.tables.find((tb) => tb.id === tableId)),
+  )
+  const [isOpen, setIsOpen] = useState(true)
+
+  if (!table) return null
 
   const renderedFields = useMemo(() => {
     return table.fields.map((f) => (
       <FieldRow
-        onChange={(f:FieldDef) =>
-          updateTableField(f, table)
-        }
+        onChange={(f: FieldDef) => updateTableField(f, table)}
         currentTableId={table.id}
         onRemove={() => removeField(table, f.id)}
         key={f.id || f.name}
@@ -50,6 +53,7 @@ const SchemaCard = ({ table }: SchemaCardProps) => {
         </Button>
       </div>
       <SchemaCardHeader table={table} />
+
       <AnimatePresence initial={false}>
         {isOpen && (
           <motion.div
