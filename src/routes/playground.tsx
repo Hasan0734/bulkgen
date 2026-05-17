@@ -6,8 +6,8 @@ export const Route = createFileRoute('/playground')({ component: App })
 
 function App() {
   return (
-    <main className=" px-4 pb-8 pt-14">
-      <section className="relative py-20">
+    <main className=" px-4 py-12">
+      <section className="py-20">
         <Playground />
       </section>
       <CTA />

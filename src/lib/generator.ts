@@ -1,5 +1,5 @@
-import { faker, allFakers } from "@faker-js/faker";
-import type { FieldDef, FieldType, TableDef } from "./types";
+import { faker } from "@faker-js/faker";
+import type { FieldDef, FieldType } from "./types";
 
 
 export const FIELD_GROUPS: { label: string, items: { type: FieldType, label: string }[] }[] = [
@@ -73,7 +73,7 @@ export const FIELD_GROUPS: { label: string, items: { type: FieldType, label: str
 export const fieldLabel = (t: FieldType) => FIELD_GROUPS.flatMap((g) => g.items).find((i) => i.type === t)?.label ?? t;
 
 
-export function generateData(tables: TableDef[]): Record<string, Record<string, unknown>[]> {
+export function generateData(): Record<string, Record<string, unknown>[]> {
     const out: Record<string, Record<string, unknown>[]> = {};
     return out;
 }
@@ -129,6 +129,13 @@ export const toCSV = (rows: Record<string, unknown>[]): string => {
 
     }
     return [keys.join(','), ...rows.map((r) => keys.map((k) => esc(r[k])).join(','))].join('\n')
+    // const headers = Object.keys(rows[0]).join(",");
+    // const csvRow = rows.map(item => Object.values(item).join(",")).join("\n");
+
+    // const fullCsv = `${headers}\n${csvRow}`;
+
+    // return fullCsv
+
 
 }
 

@@ -1,4 +1,4 @@
-import { useState, type Dispatch, type SetStateAction } from 'react'
+import {  type Dispatch, type SetStateAction } from 'react'
 import {
   Select,
   SelectContent,
@@ -17,6 +17,7 @@ interface PreviewHeaderProps {
   setActiveTable: Dispatch<SetStateAction<string>>
   format: 'json' | 'csv' | 'sql'
   setFormat: Dispatch<SetStateAction<'json' | 'csv' | 'sql'>>
+  text: string
 }
 
 const PreviewHeader = ({
@@ -24,26 +25,38 @@ const PreviewHeader = ({
   setActiveTable,
   format,
   setFormat,
+  text,
 }: PreviewHeaderProps) => {
-  const { tables, generateData } = useTableStore()
+  const { generateData, tables } = useTableStore()
+
+  const ext = format === 'json' ? 'json' : format === 'csv' ? 'csv' : 'sql'
+  const mime =
+    format === 'json'
+      ? 'application/json'
+      : format === 'csv'
+        ? 'text/csv'
+        : 'text/plain'
+
+  const handleExport = () => {
+    const blob = new Blob([text], { type: mime })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `${activeTable}.${ext}`
+    a.click()
+    URL.revokeObjectURL(url)
+  }
 
   return (
     <div className="flex justify-between items-center">
-      <Select
-        defaultValue={activeTable}
-        onValueChange={(e) => setActiveTable(e)}
-      >
-        <SelectTrigger className="bg-card!">
+      <Select value={activeTable} onValueChange={(e) => setActiveTable(e)}>
+        <SelectTrigger className="bg-card! min-w-28 max-w-32">
           <SelectValue placeholder="Select table" />
         </SelectTrigger>
-        <SelectContent>
-          <SelectItem key={'all'} value={'all'}>
-            All Tables
-          </SelectItem>
-
-          {tables.map((item) => (
-            <SelectItem key={item.name} value={item.name}>
-              {item.name}
+        <SelectContent className='min-w-28 max-w-32'>
+          {tables.map((table) => (
+            <SelectItem key={table.id} value={table.id}>
+              {table.name}
             </SelectItem>
           ))}
         </SelectContent>
@@ -74,7 +87,12 @@ const PreviewHeader = ({
         >
           <Wand2 /> Generate
         </Button>
-        <Button size={'lg'} className="rounded-lg">
+        <Button
+          disabled={!text}
+          onClick={handleExport}
+          size={'lg'}
+          className="rounded-lg"
+        >
           <Download /> Export
         </Button>
       </div>

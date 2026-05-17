@@ -1,7 +1,7 @@
-import { Card, CardContent } from './ui/card'
+import { Card } from './ui/card'
 import FieldRow from './FieldRow'
-import type { FieldDef, TableDef } from '#/lib/types'
-import React, { useMemo, useState } from 'react'
+import type { FieldDef } from '#/lib/types'
+import { useMemo, useState } from 'react'
 
 import { Button } from './ui/button'
 import { ChevronDown, Plus } from 'lucide-react'
