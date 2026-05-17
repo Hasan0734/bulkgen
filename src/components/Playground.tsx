@@ -6,11 +6,12 @@ import { useShallow} from 'zustand/shallow'
 import SchemaCard from './SchemaCard';
 import { useState } from 'react';
 import { useTableStore } from '#/app/store';
+import {  allFakers } from "@faker-js/faker";
 
 const Playground = () => {
   // const addTable  = useTableStore((state) => state.addTable);
   const tableIds = useTableStore(useShallow((state) => state.tables.map((tb) => tb.id)));
-
+  console.log(allFakers.bn_BD)
 
   return (
     <div className="max-w-6xl mx-auto z-10 relative">

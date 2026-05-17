@@ -1,4 +1,4 @@
-import { faker } from "@faker-js/faker";
+import { faker, allFakers } from "@faker-js/faker";
 import type { FieldDef, FieldType, TableDef } from "./types";
 
 
@@ -75,7 +75,6 @@ export const fieldLabel = (t: FieldType) => FIELD_GROUPS.flatMap((g) => g.items)
 
 export function generateData(tables: TableDef[]): Record<string, Record<string, unknown>[]> {
     const out: Record<string, Record<string, unknown>[]> = {};
-
     return out;
 }
 
@@ -115,4 +114,32 @@ export function getValue(field: FieldDef, idx: number): unknown {
 
         default: return null;
     }
+}
+
+
+export const toCSV = (rows: Record<string, unknown>[]): string => {
+
+    if (!rows.length) return "";
+
+    const keys = Object.keys(rows[0]);
+    const esc = (v: unknown) => {
+        if (v === null || v === undefined) return "";
+        const s = typeof v === "object" ? JSON.stringify(v) : String(v);
+        return /[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
+
+    }
+    return [keys.join(','), ...rows.map((r) => keys.map((k) => esc(r[k])).join(','))].join('\n')
+
+}
+
+export const toSQL = (tableName: string, rows: Record<string, unknown>[]): string => {
+    if (!rows.length) return `-- ${tableName} : no rows\n`
+    const keys = Object.keys(rows[0]);
+    const esc = (v: unknown) => {
+        if (v === null || v === undefined) return "NULL";
+        if (typeof v === "number") return String(v);
+        if (typeof v === "boolean") return v ? "TRUE" : "FALSE";
+        return `'${String(v).replace(/'/g, "''")}'`;
+    };
+    return rows.map((r) => `INSERT INTO ${tableName} (${keys.join(', ')}) VALUES (${keys.map((k) => esc(r[k])).join(', ')});`).join('\n')
 }

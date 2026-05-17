@@ -15,11 +15,17 @@ import { useTableStore } from '#/app/store'
 interface PreviewHeaderProps {
   activeTable: string
   setActiveTable: Dispatch<SetStateAction<string>>
+  format: 'json' | 'csv' | 'sql'
+  setFormat: Dispatch<SetStateAction<'json' | 'csv' | 'sql'>>
 }
 
-const PreviewHeader = ({ activeTable, setActiveTable }: PreviewHeaderProps) => {
+const PreviewHeader = ({
+  activeTable,
+  setActiveTable,
+  format,
+  setFormat,
+}: PreviewHeaderProps) => {
   const { tables, generateData } = useTableStore()
-  const [format, setFormat] = useState<'json' | 'csv' | 'sql'>('json')
 
   return (
     <div className="flex justify-between items-center">
