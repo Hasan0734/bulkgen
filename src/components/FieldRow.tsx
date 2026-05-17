@@ -33,8 +33,6 @@ const FieldRow = ({
   }
   const refTable = tables.find((t) => t.id === field.relationTableId)
 
-  console.log(refTable)
-
   return (
     <div className="group flex flex-col gap-2 rounded-lg border border-border bg-secondary/50 p-3 transition-all hover:border-primary/40   justify-between  md:flex-row md:items-center">
       <div className="flex flex-col items-center gap-2 grow md:flex-row md:items-center">

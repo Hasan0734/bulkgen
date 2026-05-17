@@ -13,17 +13,20 @@ import CopyButton from './ui/copy-button'
 import { useTableStore } from '#/app/store'
 
 const PreviewHeader = () => {
-  const { tables } = useTableStore()
-  const [format, setFormat] = useState<'json' | 'csv' | 'sql'>('json');
-   const [activeTable, setActiveTable] = useState(tables[0]?.id ?? "");
+  const { tables, generateData } = useTableStore()
+  const [format, setFormat] = useState<'json' | 'csv' | 'sql'>('json')
+  const [activeTable, setActiveTable] = useState(tables[0]?.id ?? '')
 
   return (
     <div className="flex justify-between items-center">
-      <Select defaultValue={tables[0].id}>
+      <Select
+        defaultValue={activeTable}
+        onValueChange={(e) => setActiveTable(e)}
+      >
         <SelectTrigger className="bg-card!">
           <SelectValue placeholder="Select table" />
         </SelectTrigger>
-        <SelectContent >
+        <SelectContent>
           {tables.map((item) => (
             <SelectItem value={item.id}>{item.name}</SelectItem>
           ))}
@@ -48,7 +51,7 @@ const PreviewHeader = () => {
         </Tabs>
         <CopyButton content="hello world" />
 
-        <Button size={'lg'} className="rounded-lg ">
+        <Button onClick={() => generateData()} size={'lg'} className="rounded-lg ">
           <Wand2 /> Generate
         </Button>
         <Button size={'lg'} className="rounded-lg">

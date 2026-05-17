@@ -1,10 +1,11 @@
 import type { FieldDef, FieldType, TableDef } from '#/lib/types';
 import { uid } from '#/lib/utils';
 import { create } from 'zustand';
+import { getValue } from '#/lib/generator';
 
 type ApplicationFields = {
     tables: TableDef[]
-    data: Record<string, Record<string, unknown>>
+    data: Record<string, Record<string, unknown>[]>
 }
 
 interface ApplicationState extends ApplicationFields {
@@ -15,6 +16,7 @@ interface ApplicationState extends ApplicationFields {
     addTableField: (table: TableDef) => void;
     updateTableField: (f: FieldDef, table: TableDef) => void;
     removeField: (table: TableDef, fieldId: string) => void;
+    generateData: () => void;
 }
 
 
@@ -97,8 +99,9 @@ export const useTableStore = create<ApplicationState>((set, get) => ({
     },
 
     addTableField: (table: TableDef) => {
+        const newField = {id: uid(), name: `field_${table.fields.length + 1}`, type: "firstName" as FieldType}
 
-        const tb = { ...table, fields: [...table.fields, { id: uid(), name: `field_${table.fields.length + 1}`, type: "firstName" as FieldType }] }
+        const tb = { ...table, fields: [...table.fields, { ...newField }] }
         get().setTables(tb)
 
         // set((state) => ({tables: state.tables.map((tb) => (tb.id === table.id ?
@@ -119,9 +122,47 @@ export const useTableStore = create<ApplicationState>((set, get) => ({
         get().setTables(filteredTable)
     },
 
-    generateData:(table: TableDef) => {
-        const data = generateData()
+    generateData: () => {
+        const tables = get().tables;
+        const out: Record<string, Record<string, unknown>[]> = {}
+
+        // generate non-relations data
+        for (const table of tables) {
+            const rows = [];
+            for (let i = 0; i < table.count; i++) {
+                const row: Record<string, unknown> = {}
+                for (const field of table.fields) {
+                    const value = getValue(field, i);
+                    row[field.name] = value;
+                }
+                rows.push(row)
+            }
+            out[table.name] = rows;
+        }
+        // generate relations data
+        for(const table of tables) {
+
+            for (const field of table.fields) {
+                const rows = out[table.name]
+                if(field.type !== 'relation') continue;
+                const refTable = tables.find((x) => x.id === field.relationTableId);
+                if(!refTable) continue;
+                const refRows = out[refTable.name]
+                const refField = refTable.fields.find((x) => x.id === field.relationFieldId)
+                if(!refField || !refRows.length) continue;
+
+                for(const r of rows){
+                    const pick = refRows[Math.floor(Math.random() * refRows.length)];
+                    r[field.name] = pick[refField?.name]
+                }
+
+            }
+        }
+
+       set({data: out})
+
     }
 
 
 }))
+
