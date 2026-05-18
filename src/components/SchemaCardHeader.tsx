@@ -54,7 +54,7 @@ const SchemaCardHeader = ({ table }: PropsType) => {
         <TextInput
           value={localCount}
           onChange={(e) =>
-            setLocalCount(Math.min(5000, Number(e.target.value)))
+            setLocalCount(Math.min(500, Number(e.target.value)))
           }
           min={1}
           max={500}

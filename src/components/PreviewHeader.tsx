@@ -1,4 +1,4 @@
-import {  type Dispatch, type SetStateAction } from 'react'
+import { type Dispatch, type SetStateAction } from 'react'
 import {
   Select,
   SelectContent,
@@ -9,7 +9,6 @@ import {
 import { Tabs, TabsList, TabsTrigger } from './ui/tabs'
 import { Button } from './ui/button'
 import { Download, Wand2 } from 'lucide-react'
-import CopyButton from './ui/copy-button'
 import { useTableStore } from '#/app/store'
 
 interface PreviewHeaderProps {
@@ -18,6 +17,7 @@ interface PreviewHeaderProps {
   format: 'json' | 'csv' | 'sql'
   setFormat: Dispatch<SetStateAction<'json' | 'csv' | 'sql'>>
   text: string
+  currentTableName: string
 }
 
 const PreviewHeader = ({
@@ -48,12 +48,12 @@ const PreviewHeader = ({
   }
 
   return (
-    <div className="flex justify-between items-center">
+    <div className="flex justify-between items-center gap-4">
       <Select value={activeTable} onValueChange={(e) => setActiveTable(e)}>
         <SelectTrigger className="bg-card! min-w-28 max-w-32">
           <SelectValue placeholder="Select table" />
         </SelectTrigger>
-        <SelectContent className='min-w-28 max-w-32'>
+        <SelectContent className="min-w-28 max-w-32">
           {tables.map((table) => (
             <SelectItem key={table.id} value={table.id}>
               {table.name}
@@ -61,12 +61,19 @@ const PreviewHeader = ({
           ))}
         </SelectContent>
       </Select>
+      <Button
+        onClick={() => generateData()}
+        size={'lg'}
+        className="rounded-full px-4"
+      >
+        <Wand2 /> Generate
+      </Button>
       <div className="flex gap-3 items-center flex-wrap">
         <Tabs
           value={format}
           onValueChange={(v) => setFormat(v as typeof format)}
         >
-          <TabsList className="h-9! bg-card px-2">
+          <TabsList variant={'line'} className="h-9! px-2">
             <TabsTrigger className="px-2" value="json">
               JSON
             </TabsTrigger>
@@ -78,20 +85,12 @@ const PreviewHeader = ({
             </TabsTrigger>
           </TabsList>
         </Tabs>
-        <CopyButton content="hello world" />
 
-        <Button
-          onClick={() => generateData()}
-          size={'lg'}
-          className="rounded-lg "
-        >
-          <Wand2 /> Generate
-        </Button>
         <Button
           disabled={!text}
           onClick={handleExport}
           size={'lg'}
-          className="rounded-lg"
+          className="rounded-full px-4"
         >
           <Download /> Export
         </Button>

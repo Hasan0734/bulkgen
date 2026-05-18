@@ -1,30 +1,66 @@
-import { PlusIcon } from 'lucide-react'
-import { Button } from './ui/button'
-
-import PreviewPanel from './PreviewPanel'
 import { useShallow } from 'zustand/shallow'
 import SchemaCard from './SchemaCard'
 import { useTableStore } from '#/app/store'
 import { ScrollArea } from './ui/scroll-area'
+import { useEffect, useMemo, useState } from 'react'
+import PreviewPanel from './PreviewPanel'
+import PlaygroundHeader from './PlaygroundHeader'
 
 const Playground = () => {
-  const addTable  = useTableStore((state) => state.addTable);
   const tableIds = useTableStore(
     useShallow((state) => state.tables.map((tb) => tb.id)),
   )
+  const { tables, sql, csv, json } = useTableStore()
+
+  const [format, setFormat] = useState<'json' | 'csv' | 'sql'>('json')
+  const [activeTable, setActiveTable] = useState<string>('')
+  const [theme, setTheme] = useState<'dark' | 'light'>('light')
+  const currentTable = tables.find((t) => t.id === activeTable)
+  const currentTableName = currentTable?.name ?? ''
+
+  useEffect(() => {
+    if (tables.length > 0 && !activeTable) {
+      setActiveTable(tables[0].id)
+    }
+  }, [tables, activeTable])
+
+  useEffect(() => {
+    const theme: 'dark' | 'light' = localStorage?.getItem('theme') as
+      | 'dark'
+      | 'light'
+    if (theme) {
+      setTheme(theme)
+    }
+  }, [localStorage?.getItem('theme')])
+
+  const text = useMemo(() => {
+    if (format === 'json') {
+      return json[currentTableName]
+    }
+    if (format === 'csv') {
+      return csv[currentTableName]
+    }
+
+    if (format === 'sql') {
+      return sql[currentTableName]
+    }
+    return ''
+  }, [format, currentTableName, sql, json, csv])
 
   return (
-    <div className="container mx-auto relative  bg-card p-10 rounded-4xl min-h-[calc(100vh-150px)] h-full overflow-hidden">
-      <div className="grid grid-cols-2 gap-10 ">
+    <div className="container mx-auto relative border  bg-card rounded-2xl min-h-[calc(100vh-160px)] 2xl:min-h-[calc(100vh-150px)] h-full overflow-hidden">
+      <PlaygroundHeader
+        format={format}
+        currentTableName={currentTableName}
+        setFormat={setFormat}
+        text={text}
+        setActiveTable={setActiveTable}
+        activeTable={activeTable}
+      />
+
+      <div className="grid grid-cols-2 gap-5 px-4 pt-3">
         <div className="space-y-5">
-          <div className="flex items-center justify-between">
-            <h3 className="text-xl font-semibold">Schema</h3>
-            <Button size={'lg'} onClick={addTable} className="rounded-full">
-              <PlusIcon />
-              Add Table
-            </Button>
-          </div>
-          <ScrollArea className=" h-170 pr-1">
+          <ScrollArea className=" h-148 2xl:h-170 pr-1">
             <div className="space-y-5 p-2">
               {tableIds.map((id) => (
                 <SchemaCard key={id} tableId={id} />
@@ -32,9 +68,13 @@ const Playground = () => {
             </div>
           </ScrollArea>
         </div>
-        {/* <div className="lg:sticky lg:top-20 self-start"> */}
-        <PreviewPanel />
-        {/* </div> */}
+
+        <PreviewPanel
+          format={format}
+          text={text}
+          theme={theme}
+          currentTableName={currentTableName}
+        />
       </div>
     </div>
   )

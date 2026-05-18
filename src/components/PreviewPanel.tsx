@@ -1,73 +1,86 @@
 import { Card, CardContent } from './ui/card'
-import PreviewHeader from './PreviewHeader'
 import { useTableStore } from '#/app/store'
-import { ScrollArea } from './ui/scroll-area'
-import { useEffect, useMemo, useState } from 'react'
 import SyntaxHighlighter from 'react-syntax-highlighter'
+import { Button } from './ui/button'
+import { Spinner } from './ui/spinner'
+import { AnimatePresence, motion } from 'motion/react'
 import {
+  defaultStyle,
   dracula,
-  lightfair,
 } from 'react-syntax-highlighter/dist/esm/styles/hljs'
-import { toCSV, toSQL } from '#/lib/generator'
+import CopyButton from './ui/copy-button'
 
-const PreviewPanel = () => {
-  const { data, tables } = useTableStore()
-  const theme = localStorage.getItem("theme");
+interface PropsType {
+  text: string
+  format: 'json' | 'csv' | 'sql'
+  theme: 'light' | 'dark'
+  currentTableName: string
+}
 
-  const [format, setFormat] = useState<'json' | 'csv' | 'sql'>('json')
-  const [activeTable, setActiveTable] = useState<string>('')
+const PreviewPanel = ({ text, format, theme, currentTableName }: PropsType) => {
+  const { isGenerating, csv } = useTableStore()
 
-  useEffect(() => {
-    if (tables.length > 0 && !activeTable) {
-      setActiveTable(tables[0].id)
-    }
-  }, [tables, activeTable])
 
-  const currentTable = tables.find((t) => t.id === activeTable)
-  const currentTableName = currentTable?.name ?? ''
-  const currentData = data[currentTableName] ?? []
-
-  const text = useMemo(() => {
-    if (!currentData.length) return ''
-    if (format === 'json') {
-      return JSON.stringify(currentData, null, 2)
-    }
-
-    if (format === 'csv') return toCSV(currentData)
-    return toSQL(activeTable, currentData)
-  }, [currentData, format, activeTable])
+  console.log(theme)
 
   return (
-    <div className="space-y-5">
-      <PreviewHeader
-        format={format}
-        setFormat={setFormat}
-        activeTable={activeTable}
-        setActiveTable={setActiveTable}
-        text={text}
-      />
-      <Card className="p-0">
-        <CardContent className="p-0">
-          <ScrollArea className="h-170">
-            {text && format !== 'csv' && (
-              <SyntaxHighlighter
-                language={format}
-                wrapLongLines
-                style={theme === "light" ? lightfair: dracula}
-              >
-                {text}
-              </SyntaxHighlighter>
-            )}
-            {text && format === 'csv' && <div className="p-4">{text}</div>}
-            {!text && (
-              <div className="p-3 text-muted-foreground">
-                No data — add fields and click Generate.
+    <Card className="p-0 relative">
+      <AnimatePresence>
+        {text && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0 }}
+            transition={{ duration: 0.3, ease: 'easeInOut', type: 'spring' }}
+            className="absolute right-2 top-2 z-10"
+          >
+            <CopyButton variant={'ghost'} content={text} />
+          </motion.div>
+        )}
+      </AnimatePresence>
+      <CardContent className="p-0 h-148 2xl:h-170 overflow-auto scroll-auto">
+        {text && format !== 'csv' && (
+          <SyntaxHighlighter
+            className="h-full bg-card!"
+            language={format}
+            style={theme === 'dark' ? dracula : defaultStyle}
+          
+          >
+            {text}
+          </SyntaxHighlighter>
+        )}
+
+        {!isGenerating && csv[currentTableName] && format === 'csv' && (
+          <pre className="p-2">{text}</pre>
+        )}
+        {!isGenerating && !text && (
+          <div className="p-3 text-muted-foreground">
+            No data — add fields and click Generate.
+          </div>
+        )}
+        <AnimatePresence>
+          {isGenerating && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={{
+                duration: 0.3,
+                ease: 'easeInOut',
+                type: 'spring',
+              }}
+              className="absolute inset-0 z-20 "
+            >
+              <div className="backdrop-blur-xs h-full flex items-center justify-center">
+                <Button>
+                  <Spinner /> Generating...
+                </Button>
               </div>
-            )}
-          </ScrollArea>
-        </CardContent>
-      </Card>
-    </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </CardContent>
+    </Card>
   )
 }
 

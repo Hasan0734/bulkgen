@@ -1,7 +1,6 @@
 import { faker } from "@faker-js/faker";
 import type { FieldDef, FieldType } from "./types";
 
-
 export const FIELD_GROUPS: { label: string, items: { type: FieldType, label: string }[] }[] = [
     {
         label: "Identity",
@@ -69,9 +68,7 @@ export const FIELD_GROUPS: { label: string, items: { type: FieldType, label: str
     },
 ]
 
-
 export const fieldLabel = (t: FieldType) => FIELD_GROUPS.flatMap((g) => g.items).find((i) => i.type === t)?.label ?? t;
-
 
 export function generateData(): Record<string, Record<string, unknown>[]> {
     const out: Record<string, Record<string, unknown>[]> = {};
@@ -116,37 +113,65 @@ export function getValue(field: FieldDef, idx: number): unknown {
     }
 }
 
+export const toCSV = (data: Record<string, Record<string, unknown>[]>): Record<string, string> => {
 
-export const toCSV = (rows: Record<string, unknown>[]): string => {
+    const cvsData: Record<string, string> = {};
 
-    if (!rows.length) return "";
+    for (const key in data) {
+         if (!Object.hasOwn(data, key)) continue;
+        const rows = data[key];
+        const keys = Object.keys(rows[0]);
+        const esc = (v: unknown) => {
+            if (v === null || v === undefined) return "";
+            const s = typeof v === "object" ? JSON.stringify(v) : String(v);
+            return /[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
 
-    const keys = Object.keys(rows[0]);
-    const esc = (v: unknown) => {
-        if (v === null || v === undefined) return "";
-        const s = typeof v === "object" ? JSON.stringify(v) : String(v);
-        return /[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
+        }
+        cvsData[key] = [keys.join(','), ...rows.map((r) => keys.map((k) => esc(r[k])).join(','))].join('\n')
+    }
+
+    return cvsData;
+
+}
+
+export const toSQL = (data: Record<string, Record<string, unknown>[]>): Record<string, string> => {
+    // if (!tables.length) return `-- : no rows\n`
+    const sqlData: Record<string, string> = {}
+
+    for (const key in data) {
+        if (!Object.hasOwn(data, key)) continue;
+        const rows = data[key]
+        const keys = Object.keys(rows[0]);
+
+        const esc = (v: unknown) => {
+            if (v === null || v === undefined) return "NULL";
+            if (typeof v === "number") return String(v);
+            if (typeof v === "boolean") return v ? "TRUE" : "FALSE";
+            return `'${String(v).replace(/'/g, "''")}'`;
+        }
+        sqlData[key] = rows.map((r) => `INSERT INTO ${key} (${keys.join(', ')}) VALUES (${keys.map((k) => esc(r[k])).join(', ')});`).join('\n')
+    }
+
+    return sqlData;
+}
+
+export const toJSON = (data: Record<string, Record<string, unknown>[]>): Record<string, string> => {
+    const jsonData: Record<string, string> = {}
+    for (const key in data) {
+        if (!Object.hasOwn(data, key)) continue;
+        const rows = data[key];
+        jsonData[key] = JSON.stringify(rows, null, 2)
 
     }
-    return [keys.join(','), ...rows.map((r) => keys.map((k) => esc(r[k])).join(','))].join('\n')
-    // const headers = Object.keys(rows[0]).join(",");
-    // const csvRow = rows.map(item => Object.values(item).join(",")).join("\n");
-
-    // const fullCsv = `${headers}\n${csvRow}`;
-
-    // return fullCsv
-
+    return jsonData;
 
 }
 
-export const toSQL = (tableName: string, rows: Record<string, unknown>[]): string => {
-    if (!rows.length) return `-- ${tableName} : no rows\n`
-    const keys = Object.keys(rows[0]);
-    const esc = (v: unknown) => {
-        if (v === null || v === undefined) return "NULL";
-        if (typeof v === "number") return String(v);
-        if (typeof v === "boolean") return v ? "TRUE" : "FALSE";
-        return `'${String(v).replace(/'/g, "''")}'`;
-    };
-    return rows.map((r) => `INSERT INTO ${tableName} (${keys.join(', ')}) VALUES (${keys.map((k) => esc(r[k])).join(', ')});`).join('\n')
-}
+// const keys = Object.keys(rows[0]);
+// const esc = (v: unknown) => {
+//     if (v === null || v === undefined) return "NULL";
+//     if (typeof v === "number") return String(v);
+//     if (typeof v === "boolean") return v ? "TRUE" : "FALSE";
+//     return `'${String(v).replace(/'/g, "''")}'`;
+// };
+// return rows.map((r) => `INSERT INTO ${tableName} (${keys.join(', ')}) VALUES (${keys.map((k) => esc(r[k])).join(', ')});`).join('\n')
