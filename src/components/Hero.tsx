@@ -14,16 +14,16 @@ const Hero = () => {
         responses so you can parallelize UI development and ship code faster.
       </p>
       <div className="flex flex-wrap gap-3 justify-center">
-        <Button className="rounded-full h-11 px-5 font-semibold">
-          Grenerate Free
+        <Button className="rounded-full h-11 px-5 font-semibold" asChild>
+          <Link to="/playground">Grenerate Free</Link>
         </Button>
-        <Button
+        {/* <Button
           variant={'outline'}
           className="h-11 rounded-full px-5 bg-card font-semibold"
           asChild
         >
           <Link to=".">API Docs</Link>
-        </Button>
+        </Button> */}
       </div>
     </section>
   )

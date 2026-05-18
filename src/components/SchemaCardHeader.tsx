@@ -42,7 +42,7 @@ const SchemaCardHeader = ({ table }: PropsType) => {
   return (
     <CardHeader className="flex justify-between items-end px-0 w-full">
       <div className="flex items-center gap-3">
-        <div className="flex items-center justify-center size-9 bg-active/20 rounded-lg">
+        <div className="flex items-center justify-center size-9 bg-background rounded-lg">
           <Database size={18} />
         </div>
         <TextInput

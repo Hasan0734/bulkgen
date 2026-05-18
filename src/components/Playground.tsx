@@ -14,7 +14,6 @@ const Playground = () => {
 
   const [format, setFormat] = useState<'json' | 'csv' | 'sql'>('json')
   const [activeTable, setActiveTable] = useState<string>('')
-  const [theme, setTheme] = useState<'dark' | 'light'>('light')
   const currentTable = tables.find((t) => t.id === activeTable)
   const currentTableName = currentTable?.name ?? ''
 
@@ -23,15 +22,6 @@ const Playground = () => {
       setActiveTable(tables[0].id)
     }
   }, [tables, activeTable])
-
-  useEffect(() => {
-    const theme: 'dark' | 'light' = localStorage?.getItem('theme') as
-      | 'dark'
-      | 'light'
-    if (theme) {
-      setTheme(theme)
-    }
-  }, [localStorage?.getItem('theme')])
 
   const text = useMemo(() => {
     if (format === 'json') {
@@ -48,7 +38,7 @@ const Playground = () => {
   }, [format, currentTableName, sql, json, csv])
 
   return (
-    <div className="container mx-auto relative border  bg-card rounded-2xl min-h-[calc(100vh-160px)] 2xl:min-h-[calc(100vh-150px)] h-full overflow-hidden">
+    <div className="container mx-auto relative border  bg-card rounded-2xl min-h-[calc(100vh-160px)] 2xl:min-h-[calc(100vh-190px)] h-full overflow-hidden">
       <PlaygroundHeader
         format={format}
         currentTableName={currentTableName}
@@ -60,7 +50,7 @@ const Playground = () => {
 
       <div className="grid grid-cols-2 gap-5 px-4 pt-3">
         <div className="space-y-5">
-          <ScrollArea className=" h-148 2xl:h-170 pr-1">
+          <ScrollArea className=" h-147 2xl:h-170 pr-1">
             <div className="space-y-5 p-2">
               {tableIds.map((id) => (
                 <SchemaCard key={id} tableId={id} />
@@ -72,7 +62,6 @@ const Playground = () => {
         <PreviewPanel
           format={format}
           text={text}
-          theme={theme}
           currentTableName={currentTableName}
         />
       </div>

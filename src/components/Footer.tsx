@@ -24,20 +24,20 @@ export default function Footer() {
             href="https://github.com"
             target="_blank"
             rel="noreferrer"
-            className="h"
+            className="text-primary hover:text-red-500"
           >
             <span className="sr-only">Star to GitHub</span>
 
-            <GithubIcon className="size-6 text-primary" />
+            <GithubIcon className="size-6 " />
           </a>
           <a
             href="https://twitter.com"
             target="_blank"
             rel="noreferrer"
-            className="hover:text-foreground"
+            className="text-primary hover:text-red-500"
           >
             <span className="sr-only">Follow TanStack on X</span>
-            <XIcon className="size-6 text-primary" />
+            <XIcon className="size-6 " />
           </a>
         </div>
       </div>

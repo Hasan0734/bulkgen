@@ -41,7 +41,7 @@ const FieldRow = ({
           value={field.name}
           onChange={(e) => update('name', e.target.value)}
           placeholder="field_name"
-          className="md:max-w-45 font-mono text-sm"
+          className="md:max-w-32 font-mono text-sm"
         />
 
         <Select

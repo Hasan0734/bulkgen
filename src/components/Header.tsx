@@ -6,16 +6,16 @@ import { AnimatedThemeToggler } from './ui/animated-theme-toggler'
 export default function Header() {
   const navLink = [
     { title: 'Home', to: '/' },
-    { title: 'About', to: '/about' },
-    { title: 'Docs', to: '/docs' },
+    // { title: 'About', to: '/about' },
+    // { title: 'Docs', to: '/docs' },
   ]
   return (
-    <header className="sticky top-0 z-50  px-4 backdrop-blur-lg ">
+    <header className="sticky top-0 z-50  px-4 backdrop-blur-lg">
       <nav className=" flex flex-wrap items-center gap-x-3 gap-y-2 py-3 sm:py-3 container mx-auto">
         <h2 className="m-0 shrink-0 text-base font-semibold tracking-tight">
           <Button variant={'ghost'} asChild>
             <Link to="/" className="inline-flex items-center gap-2 text-xl">
-              <span className="h-2 w-2 rounded-full bg-green-600" />
+              <span className="h-2 w-2 rounded-full bg-red-500/80" />
               BulkGen
             </Link>
           </Button>
@@ -41,7 +41,7 @@ export default function Header() {
             href="https://x.com/jahid0734"
             target="_blank"
             rel="noreferrer"
-            className="hidden rounded-xl  transition sm:block hover:text-active"
+            className="hidden rounded-xl  transition sm:block hover:text-red-500"
           >
             <span className="sr-only">Follow TanStack on X</span>
             <XIcon className="size-6" />
@@ -50,7 +50,7 @@ export default function Header() {
             href="https://github.com/TanStack"
             target="_blank"
             rel="noreferrer"
-            className="hidden rounded-xl transition sm:block hover:text-active "
+            className="hidden rounded-xl transition sm:block hover:text-red-500 "
           >
             <span className="sr-only">Go to TanStack GitHub</span>
             <GithubIcon className="size-6" />

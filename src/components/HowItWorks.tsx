@@ -32,8 +32,8 @@ export const HowItWorks = () => {
   return (
     <section id="how-it-works" className="mx-auto container px-6 py-20">
       <div className="mx-auto mb-12 max-w-2xl text-center">
-        <span className="inline-flex items-center gap-1.5 rounded-full border border-border bg-surface px-3 py-1 text-xs text-muted-foreground">
-          <Shuffle className="h-3 w-3 text-accent" /> How it works
+        <span className="inline-flex items-center gap-1.5 rounded-full border border-primary px-3 py-1 text-xs text-muted-foreground">
+          <Shuffle className="h-3 w-3" /> How it works
         </span>
         <h2 className="mt-4 text-3xl font-semibold tracking-tight sm:text-4xl">
           From empty schema to seeded DB in{' '}

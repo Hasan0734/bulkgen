@@ -4,24 +4,17 @@ import SyntaxHighlighter from 'react-syntax-highlighter'
 import { Button } from './ui/button'
 import { Spinner } from './ui/spinner'
 import { AnimatePresence, motion } from 'motion/react'
-import {
-  defaultStyle,
-  dracula,
-} from 'react-syntax-highlighter/dist/esm/styles/hljs'
 import CopyButton from './ui/copy-button'
+import { docco } from 'react-syntax-highlighter/dist/cjs/styles/hljs'
 
 interface PropsType {
   text: string
   format: 'json' | 'csv' | 'sql'
-  theme: 'light' | 'dark'
   currentTableName: string
 }
 
-const PreviewPanel = ({ text, format, theme, currentTableName }: PropsType) => {
+const PreviewPanel = ({ text, format, currentTableName }: PropsType) => {
   const { isGenerating, csv } = useTableStore()
-
-
-  console.log(theme)
 
   return (
     <Card className="p-0 relative">
@@ -38,13 +31,12 @@ const PreviewPanel = ({ text, format, theme, currentTableName }: PropsType) => {
           </motion.div>
         )}
       </AnimatePresence>
-      <CardContent className="p-0 h-148 2xl:h-170 overflow-auto scroll-auto">
+      <CardContent className="p-0 h-147 2xl:h-170 overflow-auto scroll-auto">
         {text && format !== 'csv' && (
           <SyntaxHighlighter
-            className="h-full bg-card!"
+            className="h-full bg-card! text-primary!"
             language={format}
-            style={theme === 'dark' ? dracula : defaultStyle}
-          
+            style={docco}
           >
             {text}
           </SyntaxHighlighter>

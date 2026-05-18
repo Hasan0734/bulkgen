@@ -16,10 +16,16 @@ const CTA = () => {
           click.
         </p>
         <div className="mt-6 flex justify-center gap-3">
-          <Button className="h-11 rounded-full px-5 font-semibold">
-            <Wand2 className="h-4 w-4" /> Try the generator
-          </Button>
-          <Button variant={'outline'} asChild className='bg-card h-11 rounded-full px-5 font-semibold'>
+          <a href='#playground'>
+            <Button className="h-11 rounded-full px-5 font-semibold">
+              <Wand2 className="h-4 w-4" /> Try the generator
+            </Button>
+          </a>
+          <Button
+            variant={'outline'}
+            asChild
+            className="bg-card h-11 rounded-full px-5 font-semibold"
+          >
             <a
               href="https://github.com/Hasan0734/bulkgen"
               target="_blank"
