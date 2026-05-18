@@ -15,7 +15,7 @@ const Hero = () => {
       </p>
       <div className="flex flex-wrap gap-3 justify-center">
         <Button className="rounded-full h-11 px-5 font-semibold" asChild>
-          <Link to="/playground">Grenerate Free</Link>
+          <a href="#playground">Grenerate Free</a>
         </Button>
         {/* <Button
           variant={'outline'}
