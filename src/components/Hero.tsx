@@ -1,9 +1,8 @@
-import { Link } from '@tanstack/react-router'
 import { Button } from './ui/button'
 
 const Hero = () => {
   return (
-    <section className="container mx-auto relative overflow-hidden rounded-4xl px-6 py-10 sm:px-10 sm:py-14 text-center">
+    <div className="container mx-auto relative overflow-hidden rounded-4xl px-6 py-10 sm:px-10 sm:py-14 text-center">
       <p className="island-kicker mb-3">Stop waiting on real data.</p>
       <h1 className="mx-auto mb-5 max-w-3xl text-4xl leading-[1.02] font-bold tracking-tight  sm:text-6xl">
         Generate production-ready mock datasets in seconds.
@@ -25,7 +24,7 @@ const Hero = () => {
           <Link to=".">API Docs</Link>
         </Button> */}
       </div>
-    </section>
+    </div>
   )
 }
 

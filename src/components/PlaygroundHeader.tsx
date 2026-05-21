@@ -1,4 +1,4 @@
-import React, { type Dispatch, type SetStateAction } from 'react'
+import  { type Dispatch, type SetStateAction } from 'react'
 import WindowControll from './WindowControll'
 import { Button } from './ui/button'
 import { PlusIcon } from 'lucide-react'

@@ -7,10 +7,12 @@ import PreviewPanel from './PreviewPanel'
 import PlaygroundHeader from './PlaygroundHeader'
 
 const Playground = () => {
-  const tableIds = useTableStore(
-    useShallow((state) => state.tables.map((tb) => tb.id)),
+  const { tables } = useTableStore(
+    useShallow((state) => ({ tables: state.tables })),
   )
-  const { tables, sql, csv, json } = useTableStore()
+  const csv = useTableStore((state) => state.csv)
+  const json = useTableStore((state) => state.json)
+  const sql = useTableStore((state) => state.sql)
 
   const [format, setFormat] = useState<'json' | 'csv' | 'sql'>('json')
   const [activeTable, setActiveTable] = useState<string>('')
@@ -37,9 +39,15 @@ const Playground = () => {
     return ''
   }, [format, currentTableName, sql, json, csv])
 
+
   return (
-    <div className="container mx-auto relative border  bg-card rounded-2xl min-h-[calc(100vh-160px)] 2xl:min-h-[calc(100vh-190px)] h-full overflow-hidden">
-      <PlaygroundHeader
+    <section
+      
+      className="py-20"
+      id="playground"
+    >
+      <div className="container mx-auto relative border  bg-card rounded-2xl min-h-[calc(100vh-160px)] 2xl:min-h-[calc(100vh-190px)] h-full overflow-hidden">
+        <PlaygroundHeader
         format={format}
         currentTableName={currentTableName}
         setFormat={setFormat}
@@ -48,24 +56,25 @@ const Playground = () => {
         activeTable={activeTable}
       />
 
-      <div className="grid grid-cols-2 gap-5 px-4 pt-3">
-        <div className="space-y-5">
-          <ScrollArea className=" h-147 2xl:h-170 pr-1">
-            <div className="space-y-5 p-2">
-              {tableIds.map((id) => (
-                <SchemaCard key={id} tableId={id} />
-              ))}
-            </div>
-          </ScrollArea>
-        </div>
+        <div className="grid grid-cols-2 gap-5 px-4 pt-3">
+          <div className="space-y-5">
+            <ScrollArea className=" h-147 2xl:h-170 pr-1">
+              <div className="space-y-5 p-2">
+                {tables.length ? tables.map((tb) => (
+                  <SchemaCard key={tb.id} tableId={tb.id} />
+                )) : <p className='text-muted-foreground text-base'>No tables found!</p>}
+              </div>
+            </ScrollArea>
+          </div>
 
-        <PreviewPanel
-          format={format}
-          text={text}
-          currentTableName={currentTableName}
-        />
+          <PreviewPanel
+            format={format}
+            text={text}
+            currentTableName={currentTableName}
+          />
+        </div>
       </div>
-    </div>
+    </section>
   )
 }
 

@@ -5,14 +5,14 @@ import { Button } from './ui/button'
 import {
   Select,
   SelectContent,
-  SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from './ui/select'
-import { FIELD_GROUPS, fieldLabel } from '#/lib/generator'
 import { useTableStore } from '#/app/store'
+import InputWithDebounce from './InputWithDebounce'
+import TypeDialog from './TypeDialog'
+import CurrencyPickup from './CurrencyPickup'
 
 interface FieldRowProps {
   field: FieldDef
@@ -37,35 +37,15 @@ const FieldRow = ({
     <div className="group flex flex-col gap-2 rounded-lg border border-border bg-secondary/50 p-3 transition-all hover:border-primary/40   justify-between  md:flex-row md:items-center">
       <div className="flex flex-col items-center gap-2 grow md:flex-row md:items-center">
         <GripVertical className="hidden h-4 w-4 shrink-0 text-muted-foreground md:block" />
-        <Input
-          value={field.name}
-          onChange={(e) => update('name', e.target.value)}
-          placeholder="field_name"
-          className="md:max-w-32 font-mono text-sm"
-        />
 
-        <Select
+        <InputWithDebounce name={field.name} update={update} />
+
+        <TypeDialog
+          onValueChange={(v) => {
+            update('type', v as FieldDef['type'])
+          }}
           value={field.type}
-          onValueChange={(v) => update('type', v as FieldDef['type'])}
-        >
-          <SelectTrigger className="md:max-w-40 w-full">
-            <SelectValue>{fieldLabel(field.type)}</SelectValue>
-          </SelectTrigger>
-          <SelectContent className="md:max-w-40 ">
-            {FIELD_GROUPS.map((g) => (
-              <SelectGroup key={g.label}>
-                <SelectLabel className="font-bold text-active">
-                  {g.label}
-                </SelectLabel>
-                {g.items.map((it) => (
-                  <SelectItem key={it.type} value={it.type}>
-                    {it.label}
-                  </SelectItem>
-                ))}
-              </SelectGroup>
-            ))}
-          </SelectContent>
-        </Select>
+        />
 
         <div className="flex flex-1 flex-wrap items-center gap-2">
           {field.type === 'static' && (
@@ -84,6 +64,32 @@ const FieldRow = ({
               className="flex-1 min-w-40  max-w-60"
             />
           )}
+
+          {field.type === 'currencyCode' && (
+            <CurrencyPickup
+              value={field.staticValue ?? ''}
+              onChange={(code) => update('staticValue', code as string)}
+              currencyType="code"
+              className="max-w-20"
+            />
+          )}
+          {field.type === 'currencyName' && (
+            <CurrencyPickup
+              value={field.staticValue ?? ''}
+              onChange={(name) => update('staticValue', name as string)}
+              currencyType="currency"
+              className="max-w-44"
+            />
+          )}
+          {field.type === 'currencySymbol' && (
+            <CurrencyPickup
+              value={field.staticValue ?? ''}
+              onChange={(name) => update('staticValue', name as string)}
+              currencyType="symbol"
+              className="max-w-36"
+            />
+          )}
+
           {(field.type === 'number' || field.type === 'price') && (
             <>
               <Input

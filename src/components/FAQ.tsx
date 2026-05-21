@@ -1,4 +1,3 @@
-
 const FAQ = () => {
   const faqs = [
     {

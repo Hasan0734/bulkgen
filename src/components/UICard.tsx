@@ -1,5 +1,4 @@
 import type { LucideIcon } from 'lucide-react'
-
 type DataTypes = {
   title: string
   icon: LucideIcon
@@ -8,15 +7,17 @@ type DataTypes = {
 
 interface UICardProps {
   data: DataTypes
+  index: number
 }
-const UICard = ({ data }: UICardProps) => {
+const UICard = ({ data, index }: UICardProps) => {
   return (
     <div
+     
       key={data.title}
       className="bg-card rounded-2xl p-5 space-y-4 relative"
     >
       <div className="flex gap-4 items-center">
-        <div className="bg-active/20 rounded-full size-8 flex items-center justify-center">
+        <div className="bg-background/50 rounded-full size-8 flex items-center justify-center">
           <data.icon size={18} />
         </div>
         <h2 className="text-base font-semibold">{data.title}</h2>

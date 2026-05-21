@@ -1,8 +1,7 @@
-import { generateCSV, generateData } from './../utils/generator.function';
+import {generateData } from './../utils/generator.function';
 import type { FieldDef, FieldType, TableDef } from '#/lib/types';
 import { uid } from '#/lib/utils';
 import { create } from 'zustand';
-import DataWorker from '../utils/generator-stream.worker?worker'
 import SQLWorker from '../utils/sql-stream.worker?worker'
 
 
@@ -59,7 +58,7 @@ const initialTables: TableDef[] = [
                 enumValues: 'paid, pending, refunded',
             },
             { id: 'o6', name: 'created_at', type: 'pastDate' },
-            { id: 'o7', name: 'currency', type: 'static', staticValue: 'USD' },
+            { id: 'o7', name: 'currency', type: 'currencyCode', staticValue: 'USD' },
         ],
     },
 ]

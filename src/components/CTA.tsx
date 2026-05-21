@@ -4,7 +4,10 @@ import { GithubIcon } from './Icon'
 
 const CTA = () => {
   return (
-    <section className="container mx-auto px-6 pb-20">
+    <section
+     
+      className="container mx-auto px-6 pb-20"
+    >
       <div className="glass relative overflow-hidden rounded-3xl p-10 text-center shadow-soft sm:p-16">
         <div className="absolute inset-0 -z-10 " />
         <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
@@ -16,7 +19,7 @@ const CTA = () => {
           click.
         </p>
         <div className="mt-6 flex justify-center gap-3">
-          <a href='#playground'>
+          <a href="#playground">
             <Button className="h-11 rounded-full px-5 font-semibold">
               <Wand2 className="h-4 w-4" /> Try the generator
             </Button>

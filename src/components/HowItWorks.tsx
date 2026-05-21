@@ -1,6 +1,5 @@
 import { Database, Download, Link2, Shuffle, Wand2 } from 'lucide-react'
 import UICard from './UICard'
-
 export const HowItWorks = () => {
   const steps = [
     {
@@ -43,7 +42,7 @@ export const HowItWorks = () => {
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         {steps.map((s, i) => (
-          <UICard key={i} data={s}  />
+          <UICard key={i} index={i} data={s} />
         ))}
       </div>
     </section>
