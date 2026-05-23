@@ -4,11 +4,11 @@ import TextInput from './TextInput'
 import { Button } from './ui/button'
 import type { TableDef } from '#/lib/types'
 import { useTableStore } from '#/app/store'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, } from 'react'
 import { useDebounce } from 'use-debounce'
 
 interface PropsType {
-  table: TableDef
+  table: TableDef,
 }
 
 const SchemaCardHeader = ({ table }: PropsType) => {
@@ -39,10 +39,13 @@ const SchemaCardHeader = ({ table }: PropsType) => {
     }
   }, [debouncedCount])
 
+
+
+
   return (
     <CardHeader className="flex justify-between items-end px-0 w-full">
       <div className="flex items-center gap-3">
-        <div className="flex items-center justify-center size-9 bg-background rounded-lg">
+        <div  className="flex items-center justify-center size-9 bg-background rounded-lg">
           <Database size={18} />
         </div>
         <TextInput

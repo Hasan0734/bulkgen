@@ -8,7 +8,7 @@ interface PropsType {
   update: <K extends keyof FieldDef>(key: K, value: FieldDef[K]) => void
 }
 
-const InputWithDebounce = ({ name, update }: PropsType) => {
+const InputWithDebounce = ({ name, update, ...props }: PropsType) => {
   const [local, setLocal] = useState(name)
   const [debouncedValue] = useDebounce(local, 300)
 
@@ -18,6 +18,7 @@ const InputWithDebounce = ({ name, update }: PropsType) => {
 
   useEffect(() => {
     if (debouncedValue !== name && debouncedValue.length) {
+      console.log('is updated')
       update('name', debouncedValue)
     }
   }, [debouncedValue])
@@ -25,9 +26,15 @@ const InputWithDebounce = ({ name, update }: PropsType) => {
     <div>
       <Input
         value={local}
-        onChange={(e) => setLocal(e.target.value)}
+        onChange={(e) => {
+          const value = e.target.value
+          if (value.length === 0 || value.length > 50) return
+
+          setLocal(e.target.value.replace(/\s+/g, '_'))
+        }}
         placeholder="field_name"
         className="md:max-w-32 font-mono text-sm h-8"
+        {...props}
       />
     </div>
   )

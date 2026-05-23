@@ -22,7 +22,7 @@ const PlaygroundHeader = ({
   currentTableName,
   text
 }: PropsType) => {
-  const addTable = useTableStore((state) => state.addTable)
+  const {addTable} = useTableStore()
 
   return (
     <div className=" z-40 top-0  w-full flex items-center gap-5 py-2 px-3 bg-secondary">
