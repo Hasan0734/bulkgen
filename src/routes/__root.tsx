@@ -11,14 +11,50 @@ export const Route = createRootRoute({
   head: () => ({
     meta: [
       {
-        charSet: 'utf-8',
+        title: 'BulkGen — Generate Realistic Bulk Database Data Instantly',
       },
       {
-        name: 'viewport',
-        content: 'width=device-width, initial-scale=1',
+        name: 'description',
+        content:
+          'BulkGen helps developers generate realistic bulk database data with foreign keys, enums, statuses, and 148 data generation methods. Export to JSON, CSV, and SQL in seconds.',
       },
+
       {
-        title: 'Generate mock data wiht BulkGen',
+        name: 'keywords',
+        content:
+          'bulk data generator, database seed generator, mock data generator, faker alternative, test data generator, sql seed data, csv generator, json generator, database seeding, fake database data, prisma seed, developer tools, BulkGen',
+      },
+
+      {
+        property: 'og:title',
+        content: 'BulkGen — Production-Grade Bulk Data Generator',
+      },
+
+      {
+        property: 'og:description',
+        content:
+          'Generate realistic database datasets with relationships, foreign keys, enums, statuses, and export to JSON, CSV, SQL.',
+      },
+
+      {
+        property: 'og:type',
+        content: 'website',
+      },
+
+      {
+        property: 'twitter:card',
+        content: 'summary_large_image',
+      },
+
+      {
+        property: 'twitter:title',
+        content: 'BulkGen — Generate Realistic Bulk Database Data',
+      },
+
+      {
+        property: 'twitter:description',
+        content:
+          '148 data generation methods, foreign keys, relationships, JSON/CSV/SQL export and realistic datasets.',
       },
     ],
     links: [
@@ -28,7 +64,7 @@ export const Route = createRootRoute({
       },
       {
         rel: 'icon',
-        type: 'image/svg', 
+        type: 'image/svg',
         href: '/logo.svg',
       },
     ],
