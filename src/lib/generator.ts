@@ -1,6 +1,6 @@
 import { faker } from "@faker-js/faker";
 import type { FieldDef, FieldType } from "./types";
-import { devices, OS } from "./constant";
+import { browsers, devices, OS } from "./constant";
 
 
 export const FIELD_GROUPS: { label: string; items: { type: FieldType; label: string }[] }[] = [
@@ -38,6 +38,7 @@ export const FIELD_GROUPS: { label: string; items: { type: FieldType; label: str
       { type: "emoji", label: "Emoji" },
       { type: "httpMethod", label: "HTTP method" },
       { type: "httpStatusCode", label: "HTTP status" },
+      { type: "browser", label: "Browser" }
     ],
   },
   {
@@ -282,6 +283,10 @@ const getRandomDevice = () => {
   const randomIndex = Math.floor(Math.random() * devices.length);
   return devices[randomIndex]
 }
+const getRandomBrowser = () => {
+  const randomIndex = Math.floor(Math.random() * browsers.length);
+  return browsers[randomIndex]
+}
 
 export function getValue(field: FieldDef, idx: number): unknown {
 
@@ -314,6 +319,7 @@ export function getValue(field: FieldDef, idx: number): unknown {
     case "emoji": return faker.internet.emoji();
     case "httpMethod": return faker.internet.httpMethod();
     case "httpStatusCode": return faker.internet.httpStatusCode();
+    case "browser": return getRandomBrowser();
     // Phone
     case "phone": return faker.phone.number();
     case "imei": return faker.phone.imei();

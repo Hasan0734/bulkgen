@@ -28,6 +28,7 @@ export type FieldType =
     | "emoji"
     | "httpMethod"
     | "httpStatusCode"
+    | "browser"
     // Phone
     | "phone"
     | "imei"
