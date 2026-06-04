@@ -132,6 +132,8 @@ export type FieldType =
     | "fileExt"
     | "mimeType"
     | "semver"
+    | "device"
+    | "os"
     // Git
     | "gitBranch"
     | "gitCommitSha"
@@ -194,4 +196,4 @@ export type FieldChildType = {
     type: FieldType; label: string
 }
 
-export type FeildGroupType = { label: string; items:FieldChildType[]  }
+export type FeildGroupType = { label: string; items: FieldChildType[] }

@@ -43,8 +43,6 @@ const Playground = () => {
     return ''
   }, [format, currentTableName, sql, json, csv])
 
-  console.log({ tables })
-
   return (
     <section className="py-20" id="playground">
       <div className="container mx-auto relative border  bg-card rounded-2xl min-h-[calc(100vh-160px)] 2xl:min-h-[calc(100vh-190px)] h-full overflow-hidden">

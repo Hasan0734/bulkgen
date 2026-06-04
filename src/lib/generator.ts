@@ -1,5 +1,6 @@
 import { faker } from "@faker-js/faker";
 import type { FieldDef, FieldType } from "./types";
+import { devices, OS } from "./constant";
 
 
 export const FIELD_GROUPS: { label: string; items: { type: FieldType; label: string }[] }[] = [
@@ -197,6 +198,8 @@ export const FIELD_GROUPS: { label: string; items: { type: FieldType; label: str
       { type: "fileExt", label: "File extension" },
       { type: "mimeType", label: "MIME type" },
       { type: "semver", label: "Semver" },
+      { type: "os", label: "OS" },
+      { type: "device", label: "Device" },
     ],
   },
   {
@@ -266,6 +269,18 @@ export const fieldLabel = (t: FieldType) => FIELD_GROUPS.flatMap((g) => g.items)
 export function generateData(): Record<string, Record<string, unknown>[]> {
   const out: Record<string, Record<string, unknown>[]> = {};
   return out;
+}
+
+
+
+const getRandomOS = () => {
+  const randomIndex = Math.floor(Math.random() * OS.length);
+  return OS[randomIndex]
+}
+
+const getRandomDevice = () => {
+  const randomIndex = Math.floor(Math.random() * devices.length);
+  return devices[randomIndex]
 }
 
 export function getValue(field: FieldDef, idx: number): unknown {
@@ -403,6 +418,8 @@ export function getValue(field: FieldDef, idx: number): unknown {
     case "fileExt": return faker.system.fileExt();
     case "mimeType": return faker.system.mimeType();
     case "semver": return faker.system.semver();
+    case "device": return getRandomDevice();
+    case "os": return getRandomOS()
     // Git
     case "gitBranch": return faker.git.branch();
     case "gitCommitSha": return faker.git.commitSha();
