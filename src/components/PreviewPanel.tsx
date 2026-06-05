@@ -1,13 +1,12 @@
 import { Card, CardContent } from './ui/card'
 import { useTableStore } from '#/app/store'
-// import SyntaxHighlighter from 'react-syntax-highlighter'
 import { Button } from './ui/button'
 import { Spinner } from './ui/spinner'
 import { AnimatePresence, motion } from 'motion/react'
 import CopyButton from './ui/copy-button'
-// import { docco } from 'react-syntax-highlighter/dist/cjs/styles/hljs'
 import { useMemo } from 'react'
 import { Virtuoso } from 'react-virtuoso'
+import { ScrollArea } from './ui/scroll-area'
 
 interface PropsType {
   text: string
@@ -35,24 +34,62 @@ const PreviewPanel = ({ text }: PropsType) => {
           </motion.div>
         )}
       </AnimatePresence>
-      <CardContent className="p-0 h-147 2xl:h-170">
-         {text && (
-          <Virtuoso
-            style={{ height: '100%' }}
-            data={lines}
-            itemContent={(_, line) => (
-              <pre 
-                className={`px-3 font-mono text-sm leading-6`}
-                // style={{ margin: 0, whiteSpace: 'pre-wrap', wordBreak: 'break-all' }}
-              >
-                {/* 3. If line is blank, render a space character to maintain row layout height */}
-                {line === '' ? ' ' : line}
-              </pre>
-            )}
-          />
-        )}
+      <CardContent className="p-0">
+        <ScrollArea className="h-147 2xl:h-170">
+          {text && (
+            <Virtuoso
+              style={{
+                height: '100%',
+                scrollbarColor: 'var(--border) var(--card)',
+              }}
+              data={lines}
+              itemContent={(_, line) => (
+                <pre
+                  className={`px-3 font-mono text-sm leading-6`}
+                  // style={{ margin: 0, whiteSpace: 'pre-wrap', wordBreak: 'break-all' }}
+                >
+                  {line === '' ? ' ' : line}
+                </pre>
+              )}
+            />
+          )}
 
-        {/* {text && format !== 'csv' && (
+          {!isGenerating && !text && (
+            <div className="p-3 text-muted-foreground">
+              No data — add fields and click Generate.
+            </div>
+          )}
+          <AnimatePresence>
+            {isGenerating && (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                transition={{
+                  duration: 0.3,
+                  ease: 'easeInOut',
+                  type: 'spring',
+                }}
+                className="absolute inset-0 z-20 "
+              >
+                <div className="backdrop-blur-xs h-full flex items-center justify-center">
+                  <Button>
+                    <Spinner /> Generating...
+                  </Button>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </ScrollArea>
+      </CardContent>
+    </Card>
+  )
+}
+
+export default PreviewPanel
+
+{
+  /* {text && format !== 'csv' && (
           <SyntaxHighlighter
             className="h-full bg-card! text-primary!"
             language={format}
@@ -65,36 +102,5 @@ const PreviewPanel = ({ text }: PropsType) => {
 
         {!isGenerating && csv[currentTableName] && format === 'csv' && (
           <pre className="p-2">{text}</pre>
-        )} */}
-        {!isGenerating && !text && (
-          <div className="p-3 text-muted-foreground">
-            No data — add fields and click Generate.
-          </div>
-        )}
-        <AnimatePresence>
-          {isGenerating && (
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.95 }}
-              transition={{
-                duration: 0.3,
-                ease: 'easeInOut',
-                type: 'spring',
-              }}
-              className="absolute inset-0 z-20 "
-            >
-              <div className="backdrop-blur-xs h-full flex items-center justify-center">
-                <Button>
-                  <Spinner /> Generating...
-                </Button>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </CardContent>
-    </Card>
-  )
+        )} */
 }
-
-export default PreviewPanel

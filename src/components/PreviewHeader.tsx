@@ -37,12 +37,15 @@ const PreviewHeader = ({
         ? 'text/csv'
         : 'text/plain'
 
+
   const handleExport = () => {
+    const table = tables.find((tab) => tab.id === activeTable)
+
     const blob = new Blob([text], { type: mime })
     const url = URL.createObjectURL(blob)
     const a = document.createElement('a')
     a.href = url
-    a.download = `${activeTable}.${ext}`
+    a.download = `${table ? table.name : activeTable}.${ext}`
     a.click()
     URL.revokeObjectURL(url)
   }

@@ -1,7 +1,7 @@
 import { useShallow } from 'zustand/shallow'
 import SchemaCard from './SchemaCard'
 import { useTableStore } from '#/app/store'
-import { ScrollArea } from './ui/scroll-area'
+import { ScrollArea, ScrollBar } from './ui/scroll-area'
 import { useEffect, useMemo, useState } from 'react'
 import PreviewPanel from './PreviewPanel'
 import PlaygroundHeader from './PlaygroundHeader'
@@ -55,7 +55,7 @@ const Playground = () => {
           activeTable={activeTable}
         />
 
-        <div className="grid grid-cols-2 gap-5 px-4 pt-3">
+        <div className="grid grid-cols-2 gap-5 px-4 pt-3 pb-3">
           {/* <DragDropProvider
             onDragOver={(event) => {
               const { source, target } = event.operation
@@ -121,6 +121,7 @@ const Playground = () => {
                   </p>
                 )}
               </div>
+              <ScrollBar className=''/>
             </ScrollArea>
           </div>
 
