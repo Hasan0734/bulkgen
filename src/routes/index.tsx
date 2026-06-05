@@ -1,8 +1,8 @@
 import CTA from '#/components/CTA'
 import FAQ from '#/components/FAQ'
-import FeatureSection from '#/components/FeatureSection'
+// import FeatureSection from '#/components/FeatureSection'
 import Hero from '#/components/Hero'
-import { HowItWorks } from '#/components/HowItWorks'
+// import { HowItWorks } from '#/components/HowItWorks'
 import Playground from '#/components/Playground'
 import { createFileRoute } from '@tanstack/react-router'
 

@@ -188,10 +188,12 @@ export const useTableStore = create<ApplicationState>((set, get) => ({
         // 1. Clear out old preview data and turn on loading state
         set({ isGenerating: true, sql: {}, json: {}, csv: {} })
         try {
-            const gendData = await generateData({ data: tables })
-            set({ isGenerating: false, sql: gendData.sql, json: gendData.json, csv: gendData.csv })
-        } catch (error) {
+            const genData = await generateData({ data: tables })
 
+            console.log(genData)
+            set({ isGenerating: false, sql: genData.sql, json: genData.json, csv: genData.csv })
+        } catch (error) {
+            console.log(error)
         }
 
         // const worker = new DataWorker();

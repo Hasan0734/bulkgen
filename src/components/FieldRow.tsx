@@ -57,16 +57,14 @@ const FieldRow = ({
     <>
       <div
         // style={{ opacity: isDragging ? 0.5 : 1 }}
-        className="group flex flex-col gap-2 rounded-lg border border-border bg-secondary p-3 transition-all hover:border-primary/40   justify-between  md:flex-row md:items-center"
+        className="group flex flex-col gap-2 rounded-lg border border-border bg-secondary p-3 transition-all hover:border-primary/40 justify-between  md:flex-row md:items-center"
       >
         <div className="flex flex-col items-center gap-2 grow md:flex-row md:items-center">
           {/* <button ref={handleRef}>
             <GripVertical className="hidden h-4 w-4 shrink-0 text-muted-foreground md:block" />
           </button> */}
-          <InputWithDebounce  name={field.name} update={update} />
-
+          <InputWithDebounce name={field.name} update={update} />
           <TypeDialog
-        
             onValueChange={(v) => {
               update('type', v as FieldDef['type'])
             }}
@@ -161,16 +159,19 @@ const FieldRow = ({
                       relationFieldId: undefined,
                     })
                   }
-
                 >
-                  <SelectTrigger className='h-8! bg-accent max-w-40'>
+                  <SelectTrigger className="h-8! bg-accent max-w-40">
                     <SelectValue placeholder="Table" className="w-40" />
                   </SelectTrigger>
-                  <SelectContent className='p-2' position='popper'>
+                  <SelectContent className="p-2" position="popper">
                     {tables
                       .filter((tb) => tb.id !== currentTableId)
                       .map((tb) => (
-                        <SelectItem key={tb.id} value={tb.id} className='max-w-40'>
+                        <SelectItem
+                          key={tb.id}
+                          value={tb.id}
+                          className="max-w-40"
+                        >
                           {tb.name}
                         </SelectItem>
                       ))}
@@ -181,14 +182,14 @@ const FieldRow = ({
                   onValueChange={(v) => update('relationFieldId', v)}
                   disabled={!refTable}
                 >
-                  <SelectTrigger className='h-8! bg-accent '>
+                  <SelectTrigger className="h-8! bg-accent ">
                     <SelectValue placeholder="Field" className="w-40" />
                   </SelectTrigger>
-                  <SelectContent className='p-2' position='popper'>
+                  <SelectContent className="p-2" position="popper">
                     {refTable?.fields
                       ?.filter((f) => f.type !== 'relation')
                       .map((f) => (
-                        <SelectItem key={f.id} value={f.id} className=''>
+                        <SelectItem key={f.id} value={f.id} className="">
                           {f.name}
                         </SelectItem>
                       ))}

@@ -111,7 +111,7 @@ const TypeDialog = ({ value, onValueChange }: PropsType) => {
           </div>
         </DialogHeader>
         <div className="grid grid-cols-3">
-          <ScrollArea className="h-120 col-span-1 pl-2 pr-3  bg-secondary">
+          <ScrollArea className="h-120 col-span-1 pl-2 pr-3 py-3 bg-secondary">
             <ul className="space-y-1">
               {groupFields.map((field) => (
                 <motion.li>

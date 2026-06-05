@@ -1,11 +1,13 @@
 import { Card, CardContent } from './ui/card'
 import { useTableStore } from '#/app/store'
-import SyntaxHighlighter from 'react-syntax-highlighter'
+// import SyntaxHighlighter from 'react-syntax-highlighter'
 import { Button } from './ui/button'
 import { Spinner } from './ui/spinner'
 import { AnimatePresence, motion } from 'motion/react'
 import CopyButton from './ui/copy-button'
-import { docco } from 'react-syntax-highlighter/dist/cjs/styles/hljs'
+// import { docco } from 'react-syntax-highlighter/dist/cjs/styles/hljs'
+import { useMemo } from 'react'
+import { Virtuoso } from 'react-virtuoso'
 
 interface PropsType {
   text: string
@@ -13,8 +15,10 @@ interface PropsType {
   currentTableName: string
 }
 
-const PreviewPanel = ({ text, format, currentTableName }: PropsType) => {
-  const { isGenerating, csv } = useTableStore()
+const PreviewPanel = ({ text }: PropsType) => {
+  const { isGenerating } = useTableStore()
+
+  const lines = useMemo(() => (text ? text.split('\n') : []), [text])
 
   return (
     <Card className="p-0 relative">
@@ -31,12 +35,29 @@ const PreviewPanel = ({ text, format, currentTableName }: PropsType) => {
           </motion.div>
         )}
       </AnimatePresence>
-      <CardContent className="p-0 h-147 2xl:h-170 overflow-auto scroll-auto">
-        {text && format !== 'csv' && (
+      <CardContent className="p-0 h-147 2xl:h-170">
+         {text && (
+          <Virtuoso
+            style={{ height: '100%' }}
+            data={lines}
+            itemContent={(_, line) => (
+              <pre 
+                className={`px-3 font-mono text-sm leading-6`}
+                // style={{ margin: 0, whiteSpace: 'pre-wrap', wordBreak: 'break-all' }}
+              >
+                {/* 3. If line is blank, render a space character to maintain row layout height */}
+                {line === '' ? ' ' : line}
+              </pre>
+            )}
+          />
+        )}
+
+        {/* {text && format !== 'csv' && (
           <SyntaxHighlighter
             className="h-full bg-card! text-primary!"
             language={format}
             style={docco}
+            customStyle={{ contentVisibility: 'auto' }} 
           >
             {text}
           </SyntaxHighlighter>
@@ -44,7 +65,7 @@ const PreviewPanel = ({ text, format, currentTableName }: PropsType) => {
 
         {!isGenerating && csv[currentTableName] && format === 'csv' && (
           <pre className="p-2">{text}</pre>
-        )}
+        )} */}
         {!isGenerating && !text && (
           <div className="p-3 text-muted-foreground">
             No data — add fields and click Generate.

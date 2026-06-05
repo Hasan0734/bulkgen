@@ -1,14 +1,13 @@
 import { Link } from '@tanstack/react-router'
-import { Button } from './ui/button'
 import { GithubIcon, XIcon } from './Icon'
 import { AnimatedThemeToggler } from './ui/animated-theme-toggler'
 
 export default function Header() {
-  const navLink = [
-    { title: 'Home', to: '/' },
-    // { title: 'About', to: '/about' },
-    // { title: 'Docs', to: '/docs' },
-  ]
+  // const navLink = [
+  //   { title: 'Home', to: '/' },
+  //   { title: 'About', to: '/about' },
+  //   { title: 'Docs', to: '/docs' },
+  // ]
   return (
     <header className="sticky top-0 z-50  px-4 backdrop-blur-lg">
       <nav className=" flex flex-wrap items-center gap-x-5 gap-y-2 py-3 sm:py-3 container mx-auto">
