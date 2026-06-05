@@ -74,7 +74,7 @@ const TypeDialog = ({ value, onValueChange }: PropsType) => {
       </DialogTrigger>
       <DialogContent
         aria-describedby={undefined}
-        className="sm:max-w-3xl w-full p-0 overflow-hidden bg-card gap-0"
+        className="sm:max-w-4xl w-full p-0 overflow-hidden bg-card gap-0"
         showCloseButton={false}
       >
         <DialogHeader className="bg-secondary py-1 px-3 border-b">
@@ -114,8 +114,8 @@ const TypeDialog = ({ value, onValueChange }: PropsType) => {
         <div className="grid grid-cols-3">
           <ScrollArea className="h-120 col-span-1 pl-2 pr-3 py-3 bg-secondary">
             <ul className="space-y-1">
-              {groupFields.map((field) => (
-                <motion.li>
+              {groupFields.map((field, index) => (
+                <motion.li key={index}>
                   <button
                     className={cn(
                       'w-full hover:bg-card py-2 px-3 rounded-lg font-semibold flex justify-between',
@@ -132,7 +132,8 @@ const TypeDialog = ({ value, onValueChange }: PropsType) => {
               ))}
             </ul>
           </ScrollArea>
-          <ScrollArea className="col-span-2 px-4 pt-2 h-120 ">
+
+          <ScrollArea className="col-span-2 px-4 pt-2 pb-2 h-120 ">
             <AnimatePresence>
               {active && (
                 <motion.ul
