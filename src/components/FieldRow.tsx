@@ -187,8 +187,7 @@ const FieldRow = ({
                   </SelectTrigger>
                   <SelectContent className="p-2" position="popper">
                     {refTable?.fields
-                      ?.filter((f) => f.type !== 'relation')
-                      .map((f) => (
+                      ?.map((f) => (
                         <SelectItem key={f.id} value={f.id} className="">
                           {f.name}
                         </SelectItem>

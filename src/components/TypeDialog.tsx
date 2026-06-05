@@ -93,13 +93,14 @@ const TypeDialog = ({ value, onValueChange }: PropsType) => {
                     input:
                       'text-primary! placeholder:text-mute dark:placeholder:text-mute',
                     trigger: 'h-8 bg-card text-primary',
-                    bubble: 'size-8 bg-card',
+                    bubble: 'size-8',
                     bubbleSurface: 'size-8 bg-card text-primary',
                     buttonRow: 'h-8',
                     filterWrap: 'h-8',
                   }}
                   collapsedWidth={150}
                   placeholder="Find Type..."
+                  autoFocus={true}
                 />
               </div>
               <DialogClose asChild>

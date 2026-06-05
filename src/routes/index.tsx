@@ -1,5 +1,5 @@
 import CTA from '#/components/CTA'
-import FAQ from '#/components/FAQ'
+// import FAQ from '#/components/FAQ'
 // import FeatureSection from '#/components/FeatureSection'
 import Hero from '#/components/Hero'
 // import { HowItWorks } from '#/components/HowItWorks'

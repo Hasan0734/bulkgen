@@ -126,12 +126,10 @@ export const useTableStore = create<ApplicationState>((set, get) => ({
     },
 
     updateTableField: (f: FieldDef, table: TableDef) => {
-        console.log(f)
         const updateTable = {
             ...table,
             fields: table.fields.map((x) => (x.id == f.id ? f : x)),
         }
-    console.log({updateTable})
 
         set((state) => ({ tables: state.tables.map((tb) => (tb.id === table.id ? updateTable : tb)) }))
     },
@@ -189,8 +187,6 @@ export const useTableStore = create<ApplicationState>((set, get) => ({
         set({ isGenerating: true, sql: {}, json: {}, csv: {} })
         try {
             const genData = await generateData({ data: tables })
-
-            console.log(genData)
             set({ isGenerating: false, sql: genData.sql, json: genData.json, csv: genData.csv })
         } catch (error) {
             console.log(error)
