@@ -1,4 +1,6 @@
 import { HeadContent, Scripts, createRootRoute } from '@tanstack/react-router'
+
+import { Analytics } from '@vercel/analytics/next'
 // import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
 // import { TanStackDevtools } from '@tanstack/react-devtools'
 import Footer from '../components/Footer'
@@ -80,6 +82,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <HeadContent />
       </head>
       <body className="font-sans antialiased wrap-anywhere selection:bg-[rgba(79,184,178,0.24)]">
+        <Analytics />
         <Header />
         {children}
         <Footer />
