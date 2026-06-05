@@ -66,9 +66,9 @@ export default function Header() {
           </a>
 
           <AnimatedThemeToggler />
-          <Button asChild className="h-9 rounded-full px-5">
+          {/* <Button asChild className="h-9 rounded-full px-5">
             <Link to="/playground">Playground</Link>
-          </Button>
+          </Button> */}
         </div>
       </nav>
     </header>
